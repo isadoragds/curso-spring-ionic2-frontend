@@ -32,9 +32,7 @@ export class CategoriasPage {
       .subscribe(response => { /**arrow function - funcao com argumento (a funcao é declarada dentro do argumento de outra funcao)-> para chamar a resposta e imprimir na tela */
         this.items = response;
       },
-      error => {
-        console.log(error);
-      }); 
+      error => {}); 
 
   }
 }
