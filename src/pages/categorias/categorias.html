@@ -8,5 +8,14 @@
 </ion-header>
 
 <ion-content padding>
-<p>Página de categorias</p>
+  <ion-list>
+    <button ion-item *ngFor="let item of items"> <!--o For percorre uma lista de items para cada item. A diretiva *ngFor faz o componente ser repetido varias vezes,
+    sendo que cada vez que for percorrido, pode ser acessado um elemento do item-->
+    <!--O items esta declarado no controlador categorias.ts-->
+      <ion-thumbnail item-start>
+        <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
+      </ion-thumbnail>
+      <h2> {{ item.nome }} </h2> <!--INTERPOLAÇÃO, INTERPOLA CONTEUDO DO HTML COM O DADO PROVENIENTE DO CONTROLADOR-->
+    </button>
+  </ion-list>
 </ion-content>
