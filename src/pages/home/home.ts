@@ -35,7 +35,7 @@ ionViewDidLeave() {
 login() {
   this.auth.authenticate(this.creds)
     .subscribe(response => {
-      console.log(response.headers.get('Authorization'));
+      this.auth.successfullLogin(response.headers.get('Authorization'));
       this.navCtrl.setRoot('CategoriasPage');
     },
     error => {});
