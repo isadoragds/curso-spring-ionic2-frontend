@@ -4,9 +4,12 @@ import { API_CONFIG } from "../config/api.config";
 import { CredenciaisDto } from "../models/credenciais.dto";
 import { LocalUser } from "../models/local_user";
 import { StorageService } from "./storage.service";
+import { JwtHelper } from "angular2-jwt";
 
 @Injectable()
 export class AuthService {
+
+    jwtHelper: JwtHelper = new JwtHelper();
 
     constructor(public http: HttpClient, public storage: StorageService){
     }
@@ -23,7 +26,8 @@ export class AuthService {
     successfullLogin(authorizationValue : string) {
         let tok = authorizationValue.substring(7); /*corta a string a partir do caracter 7, pegando somente o token e não o Bearear junto*/
         let user : LocalUser = {
-            token: tok
+            token: tok,
+            email: this.jwtHelper.decodeToken(tok).sub /**extrai o email do token */
         };
         this.storage.setLocalUser(user);
     }
