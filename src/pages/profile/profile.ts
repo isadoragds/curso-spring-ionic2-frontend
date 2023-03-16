@@ -31,7 +31,7 @@ export class ProfilePage {
         },
         error => {
           if (error.status == 403) {
-            this.navCtrl.setRoot('HomePage');
+            this.navCtrl.setRoot('HomePage'); //quando ocorre erro 403, coloca redirecionamento para pagina inicial nesse controlador do perfil
           }
         });
     }
