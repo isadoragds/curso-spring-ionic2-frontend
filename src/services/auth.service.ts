@@ -23,6 +23,16 @@ export class AuthService {
         });
     }
 
+    /**metodo para manter o usuario logado na tela - a url vem do AuthResource do backend */
+    refreshToken(){
+        return this.http.post(`${API_CONFIG.baseUrl}/auth/refresh_token`,
+        {}, //resposta vazia, pois o token é incluido automaticamente na requisicao pelo auth-interceptor
+        {
+            observe: 'response',
+            responseType: 'text'
+        });
+    }
+
     successfullLogin(authorizationValue : string) {
         let tok = authorizationValue.substring(7); /*corta a string a partir do caracter 7, pegando somente o token e não o Bearear junto*/
         let user : LocalUser = {
