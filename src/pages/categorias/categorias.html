@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <ion-list>
-    <button ion-item *ngFor="let item of items"> <!--o For percorre uma lista de items para cada item. A diretiva *ngFor faz o componente ser repetido varias vezes,
+    <button ion-item *ngFor="let item of items" (click)="showProdutos()"> <!--o For percorre uma lista de items para cada item. A diretiva *ngFor faz o componente ser repetido varias vezes,
     sendo que cada vez que for percorrido, pode ser acessado um elemento do item-->
     <!--O items esta declarado no controlador categorias.ts-->
       <ion-thumbnail item-start>
