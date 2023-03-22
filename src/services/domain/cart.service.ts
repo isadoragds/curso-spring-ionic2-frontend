@@ -29,10 +29,62 @@ export class CartService {
     addProduto(produto: ProdutoDto) : Cart {
         let cart = this.getCart();
         let position = cart.items.findIndex(x => x.produto.id == produto.id); 
-        if(position == -1) {
+        if(position == -1) { //produto nao foi encontrado
             cart.items.push({quantidade: 1, produto: produto}); //push insere item
         }
         this.storage.setCart(cart);
         return cart;
     }
+
+    removeProduto(produto: ProdutoDto) : Cart {
+        let cart = this.getCart();
+        let position = cart.items.findIndex(x => x.produto.id == produto.id); 
+        if(position != -1) { //produto foi encontrado
+            cart.items.splice(position, 1); //splice remove item
+        }
+        this.storage.setCart(cart);
+        return cart;
+    }
+
+    
+    increaseQuantity(produto: ProdutoDto) : Cart {
+        let cart = this.getCart();
+        let position = cart.items.findIndex(x => x.produto.id == produto.id); 
+        if(position != -1) { //produto foi encontrado
+            cart.items[position].quantidade++; //acessa a colecao de items na posicao position e incrementa quantidade do prod na posicao
+        }
+        this.storage.setCart(cart);
+        return cart;
+    }
+
+    decreaseQuantity(produto: ProdutoDto) : Cart {
+        let cart = this.getCart();
+        let position = cart.items.findIndex(x => x.produto.id == produto.id); 
+        if(position != -1) { //produto foi encontrado
+            cart.items[position].quantidade--; //acessa a colecao de items na posicao position e decrementa quantidade do prod na posicao
+            if(cart.items[position].quantidade < 1) {
+                cart = this.removeProduto(produto); //se a quantidade for menor que zero, remove o produto
+            }
+        }
+        this.storage.setCart(cart);
+        return cart;
+    }
+
+    total() : number {
+        let cart = this.getCart();
+        let sum = 0; //inicia variavel soma comecando com zero
+        /**
+         * for para percorrer os items do carrinho
+         * comeca variavel i com zero
+         * o for avanca enquanto a variavel ir for menor que cart.items.length
+         * para cada de valor de i, a soma recebe ela mesma + o preco do cart.items na posicao i * a quantidade do cart.items na posicao i 
+         * quando o for acaba, retorna a soma
+         */
+        for (var i=0; i<cart.items.length; i++) {
+            sum += cart.items[i].produto.preco * cart.items[i].quantidade;
+        }
+        return sum;
+    }
+
+
 }
