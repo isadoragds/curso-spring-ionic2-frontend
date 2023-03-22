@@ -11,9 +11,9 @@ export class ClienteService {
     constructor(public http: HttpClient, public storage: StorageService) {
     }
 
-    findByEmail(email : string) : Observable<ClienteDto> {
-
-        return this.http.get<ClienteDto>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
+     //antes estava tipado por clienteDto, mas agora vai retornar todos os dados do cliente do backend, inclusive o endereco
+    findByEmail(email : string) {
+        return this.http.get(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
     }
     
     getImageFromBucket(id : string) : Observable<any> {

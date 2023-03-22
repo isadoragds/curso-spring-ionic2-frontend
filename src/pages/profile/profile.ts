@@ -25,7 +25,7 @@ export class ProfilePage {
     if (localUser && localUser.email) {
       this.clienteService.findByEmail(localUser.email)
         .subscribe(response => {
-          this.cliente = response;
+          this.cliente = response as ClienteDto; //casting pq foi retirada a tipagem por ClienteDto do cliente.service
           this.getImageIfExists();
 
         },
