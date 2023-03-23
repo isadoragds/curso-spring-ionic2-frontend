@@ -9,7 +9,7 @@ export class PedidoService {
     constructor(public http: HttpClient) {      
     }
 
-    InstanceProperty(obj: PedidoDto) {
+    insert(obj: PedidoDto) {
         return this.http.post(
             `${API_CONFIG.baseUrl}/pedidos`,
             obj,
