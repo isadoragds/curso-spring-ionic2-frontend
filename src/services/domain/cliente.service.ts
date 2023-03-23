@@ -11,6 +11,11 @@ export class ClienteService {
     constructor(public http: HttpClient, public storage: StorageService) {
     }
 
+    //pega por id, pois o json do pagamento pega o id do usuario logado
+    findById(id : string) {
+        return this.http.get(`${API_CONFIG.baseUrl}/clientes/${id}`);
+    }
+
      //antes estava tipado por clienteDto, mas agora vai retornar todos os dados do cliente do backend, inclusive o endereco
     findByEmail(email : string) {
         return this.http.get(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
