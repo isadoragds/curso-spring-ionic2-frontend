@@ -19,7 +19,8 @@ import { ProdutoService } from '../../services/domain/produto.service';
 export class ProdutosPage {
 
  
-  items : ProdutoDto[];
+  items : ProdutoDto[] = []; //iniciando com a lista vazia -> sempre que buscar uma nova pagina, vai concatenar com a lista que ja existia
+  page : number = 0;
 
   constructor(
     public navCtrl: NavController, 
@@ -35,19 +36,23 @@ export class ProdutosPage {
   loadData() {
     let categoria_id = this.navParams.get('categoria_id');
     let loader = this.presentLoading();
-    this.produtoService.findByCategoria(categoria_id)
+    this.produtoService.findByCategoria(categoria_id, this.page, 10) //busca produtos de 10 em 10
       .subscribe(response => {
-        this.items = response['content'];
+        let start = this.items.length; //tamanho da lista 
+        this.items = this.items.concat(response['content']);
+        let end = this.items.length - 1; //se a listar for de 10 items, a posicao é de 0 a 9 (o fim sempre vai ser o tamanho da lista menos 1) 
         loader.dismiss();
-        this.loadImageUrls(); //pq é paginada
+        console.log(this.page);
+        console.log(this.items);
+        this.loadImageUrls(start, end); //com esses parametros, as imagens que nao existem nao vao ser carregadas novamente a medida que se concatena a lista de produtos
       },
       error => {
         loader.dismiss();
       });
   }
 
-  loadImageUrls() {
-    for (var i=0; i<this.items.length; i++) {
+  loadImageUrls(start: number, end: number) {
+    for (var i=start; i<=end; i++) {
       let item = this.items[i];
       this.produtoService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
@@ -70,9 +75,20 @@ export class ProdutosPage {
   }
 
   doRefresh(refresher) {
+    this.page = 0; 
+    this.items = []; //quando der refresh tem que zerar a lista de produtos
     this.loadData();
     setTimeout(() => {
       refresher.complete();
+    }, 1000);
+  }
+
+  
+  doInfinite(infiniteScroll) {
+    this.page++; //concatena a pagina
+    this.loadData(); //exibe os dados
+    setTimeout(() => {
+      infiniteScroll.complete();
     }, 1000);
   }
 }
